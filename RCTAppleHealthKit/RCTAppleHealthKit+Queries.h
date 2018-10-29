@@ -52,6 +52,7 @@
                                          limit:(NSUInteger)lim
                                    intervalDay:(NSUInteger)intervalDay
                                   intervalHour:(NSUInteger)intervalHour
+                                intervalMinute:(NSUInteger)intervalMinute
                                     completion:(void (^)(NSArray *, NSError *))completionHandler;
 
 - (void)fetchCumulativeSumStatisticsCollection:(HKQuantityType *)quantityType
@@ -73,7 +74,7 @@
 
 
 - (void)fetchSleepCategorySamplesForPredicate:(NSPredicate *)predicate
-                                   limit:(NSUInteger)lim
+                                        limit:(NSUInteger)lim
                                    completion:(void (^)(NSArray *, NSError *))completion;
 
 @end

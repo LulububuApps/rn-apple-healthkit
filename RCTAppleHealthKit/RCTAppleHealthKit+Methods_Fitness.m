@@ -174,8 +174,8 @@
              return;
          }
 
-          [self.bridge.eventDispatcher sendAppEventWithName:@"change:steps"
-                                                       body:@{@"name": @"change:steps"}];
+         [self.bridge.eventDispatcher sendAppEventWithName:@"change:steps"
+                                                      body:@{@"name": @"change:steps"}];
 
          // If you have subscribed for background updates you must call the completion handler here.
          // completionHandler();
@@ -200,10 +200,10 @@
         }
 
         NSDictionary *response = @{
-                @"value" : @(distance),
-                @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
-                @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
-        };
+                                   @"value" : @(distance),
+                                   @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
+                                   @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
+                                   };
 
 
         callback(@[[NSNull null], response]);
@@ -291,10 +291,10 @@
         }
 
         NSDictionary *response = @{
-                @"value" : @(distance),
-                @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
-                @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
-        };
+                                   @"value" : @(distance),
+                                   @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
+                                   @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
+                                   };
 
         callback(@[[NSNull null], response]);
     }];
@@ -347,10 +347,10 @@
         }
 
         NSDictionary *response = @{
-                @"value" : @(count),
-                @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
-                @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
-        };
+                                   @"value" : @(count),
+                                   @"startDate" : [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
+                                   @"endDate" : [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
+                                   };
 
         callback(@[[NSNull null], response]);
     }];
@@ -394,6 +394,7 @@
     NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:[NSDate date]];
     NSUInteger intervalDay = [RCTAppleHealthKit uintFromOptions:input key:@"intervalDay" withDefault:1];
     NSUInteger intervalHour = [RCTAppleHealthKit uintFromOptions:input key:@"intervalHour" withDefault:0];
+    NSUInteger intervalMinute = [RCTAppleHealthKit uintFromOptions:input key:@"intervalMinute" withDefault:0];
     if(startDate == nil){
         callback(@[RCTMakeError(@"startDate is required in options", nil, nil)]);
         return;
@@ -409,6 +410,7 @@
                                            limit:limit
                                      intervalDay:intervalDay
                                     intervalHour:intervalHour
+                                  intervalMinute:intervalMinute
                                       completion:^(NSArray *arr, NSError *err) {
                                           if (err != nil) {
                                               NSLog(@"error with fetchCumulativeSumStatisticsCollection: %@", err);

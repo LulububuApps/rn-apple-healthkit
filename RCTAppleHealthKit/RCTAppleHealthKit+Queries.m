@@ -20,34 +20,34 @@
                                  completion:(void (^)(HKQuantity *, NSDate *, NSDate *, NSError *))completion {
 
     NSSortDescriptor *timeSortDescriptor = [[NSSortDescriptor alloc]
-            initWithKey:HKSampleSortIdentifierEndDate
-              ascending:NO
-    ];
+                                            initWithKey:HKSampleSortIdentifierEndDate
+                                            ascending:NO
+                                            ];
 
     HKSampleQuery *query = [[HKSampleQuery alloc]
-            initWithSampleType:quantityType
-                     predicate:predicate
-                         limit:1
-               sortDescriptors:@[timeSortDescriptor]
-                resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
+                            initWithSampleType:quantityType
+                            predicate:predicate
+                            limit:1
+                            sortDescriptors:@[timeSortDescriptor]
+                            resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
 
-                      if (!results) {
-                          if (completion) {
-                              completion(nil, nil, nil, error);
-                          }
-                          return;
-                      }
+                                if (!results) {
+                                    if (completion) {
+                                        completion(nil, nil, nil, error);
+                                    }
+                                    return;
+                                }
 
-                      if (completion) {
-                          // If quantity isn't in the database, return nil in the completion block.
-                          HKQuantitySample *quantitySample = results.firstObject;
-                          HKQuantity *quantity = quantitySample.quantity;
-                          NSDate *startDate = quantitySample.startDate;
-                          NSDate *endDate = quantitySample.endDate;
-                          completion(quantity, startDate, endDate, error);
-                      }
-                }
-    ];
+                                if (completion) {
+                                    // If quantity isn't in the database, return nil in the completion block.
+                                    HKQuantitySample *quantitySample = results.firstObject;
+                                    HKQuantity *quantity = quantitySample.quantity;
+                                    NSDate *startDate = quantitySample.startDate;
+                                    NSDate *endDate = quantitySample.endDate;
+                                    completion(quantity, startDate, endDate, error);
+                                }
+                            }
+                            ];
     [self.healthStore executeQuery:query];
 }
 
@@ -253,7 +253,7 @@
 }
 
 - (void)fetchSleepCategorySamplesForPredicate:(NSPredicate *)predicate
-                                   limit:(NSUInteger)lim
+                                        limit:(NSUInteger)lim
                                    completion:(void (^)(NSArray *, NSError *))completion {
 
     NSSortDescriptor *timeSortDescriptor = [[NSSortDescriptor alloc] initWithKey:HKSampleSortIdentifierEndDate
@@ -290,22 +290,22 @@
                     NSString *valueString;
 
                     switch (val) {
-                      case HKCategoryValueSleepAnalysisInBed:
-                        valueString = @"INBED";
-                      break;
-                      case HKCategoryValueSleepAnalysisAsleep:
-                        valueString = @"ASLEEP";
-                      break;
-                     default:
-                        valueString = @"UNKNOWN";
-                     break;
-                  }
+                        case HKCategoryValueSleepAnalysisInBed:
+                            valueString = @"INBED";
+                            break;
+                        case HKCategoryValueSleepAnalysisAsleep:
+                            valueString = @"ASLEEP";
+                            break;
+                        default:
+                            valueString = @"UNKNOWN";
+                            break;
+                    }
 
                     NSDictionary *elem = @{
-                            @"value" : valueString,
-                            @"startDate" : startDateString,
-                            @"endDate" : endDateString,
-                    };
+                                           @"value" : valueString,
+                                           @"startDate" : startDateString,
+                                           @"endDate" : endDateString,
+                                           };
 
                     [data addObject:elem];
                 }
@@ -331,11 +331,11 @@
     //                                  endDate:endDate];
 
 
-   HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType:categoryType
-                                                          predicate:predicate
-                                                              limit:lim
-                                                    sortDescriptors:@[timeSortDescriptor]
-                                                     resultsHandler:handlerBlock];
+    HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType:categoryType
+                                                           predicate:predicate
+                                                               limit:lim
+                                                     sortDescriptors:@[timeSortDescriptor]
+                                                      resultsHandler:handlerBlock];
 
 
     [self.healthStore executeQuery:query];
@@ -384,10 +384,10 @@
                     NSString *endDateString = [RCTAppleHealthKit buildISO8601StringFromDate:sample.endDate];
 
                     NSDictionary *elem = @{
-                      @"correlation" : sample,
-                      @"startDate" : startDateString,
-                      @"endDate" : endDateString,
-                    };
+                                           @"correlation" : sample,
+                                           @"startDate" : startDateString,
+                                           @"endDate" : endDateString,
+                                           };
                     [data addObject:elem];
                 }
 
@@ -412,15 +412,15 @@
 
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesToday];
     HKStatisticsQuery *query = [[HKStatisticsQuery alloc] initWithQuantityType:quantityType
-                                                          quantitySamplePredicate:predicate
-                                                          options:HKStatisticsOptionCumulativeSum
-                                                          completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
-                                                                HKQuantity *sum = [result sumQuantity];
-                                                                if (completionHandler) {
-                                                                    double value = [sum doubleValueForUnit:unit];
-                                                                    completionHandler(value, error);
-                                                                }
-                                                          }];
+                                                       quantitySamplePredicate:predicate
+                                                                       options:HKStatisticsOptionCumulativeSum
+                                                             completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
+                                                                 HKQuantity *sum = [result sumQuantity];
+                                                                 if (completionHandler) {
+                                                                     double value = [sum doubleValueForUnit:unit];
+                                                                     completionHandler(value, error);
+                                                                 }
+                                                             }];
 
     [self.healthStore executeQuery:query];
 }
@@ -433,17 +433,17 @@
 
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesOnDay:day];
     HKStatisticsQuery *query = [[HKStatisticsQuery alloc] initWithQuantityType:quantityType
-                                                          quantitySamplePredicate:predicate
-                                                          options:HKStatisticsOptionCumulativeSum
-                                                          completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
-                                                              HKQuantity *sum = [result sumQuantity];
-                                                              NSDate *startDate = result.startDate;
-                                                              NSDate *endDate = result.endDate;
-                                                              if (completionHandler) {
+                                                       quantitySamplePredicate:predicate
+                                                                       options:HKStatisticsOptionCumulativeSum
+                                                             completionHandler:^(HKStatisticsQuery *query, HKStatistics *result, NSError *error) {
+                                                                 HKQuantity *sum = [result sumQuantity];
+                                                                 NSDate *startDate = result.startDate;
+                                                                 NSDate *endDate = result.endDate;
+                                                                 if (completionHandler) {
                                                                      double value = [sum doubleValueForUnit:unit];
                                                                      completionHandler(value,startDate, endDate, error);
-                                                              }
-                                                          }];
+                                                                 }
+                                                             }];
 
     [self.healthStore executeQuery:query];
 }
@@ -509,13 +509,15 @@
                                          limit:(NSUInteger)lim
                                    intervalDay:(NSUInteger)intervalDay
                                   intervalHour:(NSUInteger)intervalHour
+                                intervalMinute:(NSUInteger)intervalMinute
                                     completion:(void (^)(NSArray *, NSError *))completionHandler {
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *interval = [[NSDateComponents alloc] init];
     interval.day = intervalDay;
     interval.hour = intervalHour;
-    
+    interval.minute = intervalMinute;
+
     NSDateComponents *anchorComponents = [calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear
                                                      fromDate:[NSDate date]];
     
@@ -701,10 +703,10 @@
                                            NSString *endDateString = [RCTAppleHealthKit buildISO8601StringFromDate:endDate];
 
                                            NSDictionary *elem = @{
-                                                   @"value" : @(value),
-                                                   @"startDate" : startDateString,
-                                                   @"endDate" : endDateString,
-                                           };
+                                                                  @"value" : @(value),
+                                                                  @"startDate" : startDateString,
+                                                                  @"endDate" : endDateString,
+                                                                  };
                                            [data addObject:elem];
                                        }
                                    }];
